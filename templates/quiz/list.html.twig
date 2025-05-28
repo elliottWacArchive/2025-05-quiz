@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des quiz{% endblock %}
+
+{% block body %}
+  <h1>Nos quiz</h1>
+  <ul>
+    {% for quiz in quizzes %}
+      <li>
+        <a href="{{ path('quiz_show', {id: quiz.id}) }}">
+          {{ quiz.title }}
+        </a>
+        – catégorie : {{ quiz.category.name }}
+        – créé le {{ quiz.createdAt|date('d/m/Y') }}
+      </li>
+    {% else %}
+      <li>Aucun quiz pour l’instant.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

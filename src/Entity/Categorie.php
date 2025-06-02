@@ -24,9 +24,16 @@ class Categorie
     #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'categorie')]
     private Collection $questions;
 
+    /**
+     * @var Collection<int, Quiz>
+     */
+    #[ORM\OneToMany(targetEntity: Quiz::class, mappedBy: 'categorie')]
+    private Collection $quizzes;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->quizzes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +77,36 @@ class Categorie
             // set the owning side to null (unless already changed)
             if ($question->getCategorie() === $this) {
                 $question->setCategorie(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Quiz>
+     */
+    public function getQuizzes(): Collection
+    {
+        return $this->quizzes;
+    }
+
+    public function addQuiz(Quiz $quiz): static
+    {
+        if (!$this->quizzes->contains($quiz)) {
+            $this->quizzes->add($quiz);
+            $quiz->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuiz(Quiz $quiz): static
+    {
+        if ($this->quizzes->removeElement($quiz)) {
+            // set the owning side to null (unless already changed)
+            if ($quiz->getCategorie() === $this) {
+                $quiz->setCategorie(null);
             }
         }
 

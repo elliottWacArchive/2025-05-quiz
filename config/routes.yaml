@@ -3,3 +3,42 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+quiz:
+  path: /quizz
+  controller: App\Controller\QuizController::index
+
+quiz_show:
+  path: /quizz/{id}
+  controller: App\Controller\QuizController::show
+  requirements:
+    id: '\d+'
+
+quiz_new:
+  path: /quizz/nouveau
+  controller: App\Controller\QuizController::new
+
+quiz_create:
+  path: /quizz
+  controller: App\Controller\QuizController::create
+  methods: [POST]
+
+quiz_edit:
+  path: /quizz/{id}/editer
+  controller: App\Controller\QuizController::edit
+  requirements:
+    id: '\d+'
+
+quiz_update:
+  path: /quizz/{id}
+  controller: App\Controller\QuizController::update
+  methods: [PUT]
+  requirements:
+    id: '\d+'
+
+quiz_delete:
+  path: /quizz/{id}
+  controller: App\Controller\QuizController::delete
+  methods: [DELETE]
+  requirements:
+    id: '\d+'

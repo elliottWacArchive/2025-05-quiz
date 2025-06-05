@@ -61,11 +61,11 @@ class Categorie
         return $this->questions;
     }
 
-    public function addQuestion(Question $question): static
+    public function addQuestion(Question $question, $em): static
     {
         if (!$this->questions->contains($question)) {
             $this->questions->add($question);
-            $question->setCategorie($this);
+            $question->setCategorie($this, $em);
         }
 
         return $this;
@@ -75,9 +75,7 @@ class Categorie
     {
         if ($this->questions->removeElement($question)) {
             // set the owning side to null (unless already changed)
-            if ($question->getCategorie() === $this) {
-                $question->setCategorie(null);
-            }
+            $question->setCategorie(null);
         }
 
         return $this;

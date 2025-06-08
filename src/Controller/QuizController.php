@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Quiz;
-use App\Form\QuizType;
+use App\Form\QuizTForm;
 use App\Repository\QuizRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,11 +17,13 @@ class QuizController extends AbstractController
      */
     public function index(): Response
     {
-        // par exemple un render ou un JsonResponse…
         return $this->render('quiz/index.html.twig', [
             'controller_name' => 'QuizController',
         ]);
     }
+    /**
+     * @Route("/quiz/list", name="quiz_list_all")
+     */
     public function list(QuizRepository $quizRepo): Response
     {
         // Récupère tous les Quiz
@@ -55,7 +57,7 @@ class QuizController extends AbstractController
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $quiz = new Quiz();
-        $form = $this->createForm(QuizType::class, $quiz);
+        $form = $this->createForm(QuizTForm::class, $quiz);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -64,7 +66,7 @@ class QuizController extends AbstractController
 
             // message flash et redirection
             $this->addFlash('success', 'Quiz créé avec succès !');
-            return $this->redirectToRoute('quiz_list');
+            return $this->redirectToRoute('quiz_list_all');
         }
 
         return $this->render('quiz/new.html.twig', [

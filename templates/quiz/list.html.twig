@@ -8,10 +8,9 @@
     {% for quiz in quizzes %}
       <li>
         <a href="{{ path('quiz_show', {id: quiz.id}) }}">
-          {{ quiz.title }}
+          {{ quiz.name }}
         </a>
-        – catégorie : {{ quiz.category.name }}
-        – créé le {{ quiz.createdAt|date('d/m/Y') }}
+        – catégorie : {{ quiz.categorie.name }}
       </li>
     {% else %}
       <li>Aucun quiz pour l’instant.</li>

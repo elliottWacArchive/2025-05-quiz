@@ -1,16 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Quiz: {{ quiz.title }}{% endblock %}
+{% block title %}Quiz: {{ quiz.name }}{% endblock %}
 
 {% block body %}
-  <h1>{{ quiz.title }}</h1>
-  <p>Catégorie : {{ quiz.category.name }}</p>
-  <p>{{ quiz.description }}</p>
+  <h2>Catégorie : {{ quiz.categorie.name }}</h2>
   <p>Questions ({{ quiz.questions|length }}) :</p>
   <ul>
     {% for question in quiz.questions %}
-      <li>{{ question.content }}</li>
+      <li>{{ question.question }}</li>
     {% endfor %}
   </ul>
-  <a href="{{ path('quiz_list') }}">← Retour à la liste</a>
+  <a href="{{ path('quiz_list_all') }}">← Retour à la liste</a>
 {% endblock %}

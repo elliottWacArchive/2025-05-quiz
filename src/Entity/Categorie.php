@@ -24,9 +24,16 @@ class Categorie
     #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'categorie')]
     private Collection $questions;
 
+    /**
+     * @var Collection<int, Quiz>
+     */
+    #[ORM\OneToMany(targetEntity: Quiz::class, mappedBy: 'categorie')]
+    private Collection $quizzes;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->quizzes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -54,11 +61,11 @@ class Categorie
         return $this->questions;
     }
 
-    public function addQuestion(Question $question): static
+    public function addQuestion(Question $question, $em): static
     {
         if (!$this->questions->contains($question)) {
             $this->questions->add($question);
-            $question->setCategorie($this);
+            $question->setCategorie($this, $em);
         }
 
         return $this;
@@ -68,8 +75,36 @@ class Categorie
     {
         if ($this->questions->removeElement($question)) {
             // set the owning side to null (unless already changed)
-            if ($question->getCategorie() === $this) {
-                $question->setCategorie(null);
+            $question->setCategorie(null);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Quiz>
+     */
+    public function getQuizzes(): Collection
+    {
+        return $this->quizzes;
+    }
+
+    public function addQuiz(Quiz $quiz): static
+    {
+        if (!$this->quizzes->contains($quiz)) {
+            $this->quizzes->add($quiz);
+            $quiz->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuiz(Quiz $quiz): static
+    {
+        if ($this->quizzes->removeElement($quiz)) {
+            // set the owning side to null (unless already changed)
+            if ($quiz->getCategorie() === $this) {
+                $quiz->setCategorie(null);
             }
         }
 
